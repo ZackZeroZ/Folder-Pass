@@ -1,0 +1,44 @@
+cls
+@ECHO OFF
+title Folder LockFolder
+if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLockFolder
+if NOT EXIST LockFolder goto MDLockFolder
+:AuthConfirm
+echo Are you sure u want to Lock Folder (Y/N)
+set/p "cho=>"
+if %cho%==Y goto LockFolder
+if %cho%==y goto LockFolder
+if %cho%==n goto END
+if %cho%==N goto END
+echo Invalid choice.
+goto AuthConfirm
+:LockFolder
+ren LockFolder "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+attrib +h +s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+echo Folder "LockFolder" Locked!
+echo Press Any Key To Continue...
+set/p "choice=>"
+if %choice%==
+goto End
+:UNLockFolder
+@echo off
+echo Enter password to Unlock Folder
+set/p "pass=>"
+if NOT %pass%==123456 HERE goto FailUnlock
+attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" LockFolder
+echo Folder UnLocked successfully!
+goto End
+:FailUnlock
+echo Invalid password!
+echo Try again? (Y/N)
+set/p "choice=>"
+if %choice%==Y goto UNLockFolder
+if %choice%==y goto UNLockFolder
+if %choice%==N goto END
+if %choice%==n goto END
+:MDLockFolder
+md LockFolder
+echo Folder LockFolder created successfully!
+goto End
+:End
